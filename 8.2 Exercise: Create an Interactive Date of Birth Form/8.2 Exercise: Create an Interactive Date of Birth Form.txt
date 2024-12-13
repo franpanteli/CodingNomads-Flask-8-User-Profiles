@@ -1,0 +1,53 @@
+-> Making Forms with Flask-WTF Lesson  
+   -> Exercise: Create an Interactive Date of Birth Form  
+   -> 3 min to complete á By Brandon Gigous  
+
+-> Introduction  
+   -> By now, you should be familiar with defining, rendering, and adapting your view functions to work with forms and fields  
+   -> In this exercise, you will apply your knowledge to create a new route in your Flask application that displays a form asking for the user's date of birth  
+   -> Once the user submits the form, the web application will flash a message displaying their Zodiac sign (e.g. Libra, Cancer) or their Chinese Zodiac animal (e.g. Rat, Ox)  
+
+-> DateField  
+   -> To accomplish this, you will use a field in your form that is specifically designed to accept dates  
+   -> The DateField is like other fields in Flask-WTF, in that it also accepts a label  
+   -> You will need to ensure that the user cannot submit the form without entering a valid date  
+   -> This is done by setting validation rules on the DateField to require a date entry  
+
+-> View Function  
+   -> As you have learned, you will need a view function to handle the logic of the form  
+   -> Define your view function and make it the handler for the route `/zodiac`  
+   -> In this view function, you will create an instance of the form  
+   -> The function should check if the form has been submitted and is valid  
+   -> When the form is successfully validated, you will redirect the user to the index page (`/`)  
+
+-> Template  
+   -> Create a new template file called `zodiac.html` to render the form  
+   -> This template should inherit from the base template `base.html`  
+   -> In `zodiac.html`, render the form created in the view function  
+   -> The form should be the only thing displayed on the page, but you are encouraged to get creative and add additional styling or content if desired  
+
+-> Flash a Message  
+   -> After the user submits the form, you will want the web application to display a message indicating their Zodiac sign or Chinese Zodiac animal  
+   -> This can be done by using Flask's `flash` function to display a message on the page  
+   -> To calculate the user's Zodiac sign or animal, you can use basic logic based on their birthdate  
+   -> If you need help with this calculation or encounter any issues with the Flask-WTF library, you can ask for help on the course's Discord or consult your mentor  
+
+-> Have Fun!  
+   -> The most important part of this exercise is to have fun with it!  
+   -> People tend to learn best when they enjoy what theyÕre doing, so feel free to experiment and add personal touches to your form  
+   -> Don't worry too much about making it perfectÑyou're preparing to dive into more advanced topics, like databases, in the next section  
+   -> Forms and database interaction are closely linked, as forms allow users to submit data that can then be stored in a database  
+
+-> Mentorship Makes the Difference!  
+   -> Remember, you donÕt have to learn aloneÑthereÕs support available through the CodingNomads 1-on-1 Mentorship Program  
+   -> By joining the programme, you will have access to:  
+      -> A dedicated team of mentors and advisors who are committed to your success  
+      -> Weekly 1-on-1 screen share meetings with your personal, professional mentor  
+      -> Continuous, personalised support seven days a week via Discord  
+      -> Accountability, feedback, encouragement, and guidance to help you succeed  
+
+-> Example Routes and Files  
+   -> The route `/zodiac` will handle the display and submission of the form  
+   -> Your form will be rendered using the template `zodiac.html`, which inherits from `base.html`  
+   -> You will use `datetime.date` from Python's `datetime` module to handle and manipulate the user's birthdate  
+   -> Flash messages will be used to show the Zodiac sign or Chinese Zodiac animal once the form has been submitted  
