@@ -1,6 +1,5 @@
 -> Making Forms with Flask-WTF Lesson  
    -> Exercise: Create an Interactive Date of Birth Form  
-   -> 3 min to complete á By Brandon Gigous  
 
 -> Introduction  
    -> By now, you should be familiar with defining, rendering, and adapting your view functions to work with forms and fields  
@@ -34,12 +33,12 @@
 
 -> Have Fun!  
    -> The most important part of this exercise is to have fun with it!  
-   -> People tend to learn best when they enjoy what theyÕre doing, so feel free to experiment and add personal touches to your form  
-   -> Don't worry too much about making it perfectÑyou're preparing to dive into more advanced topics, like databases, in the next section  
+   -> People tend to learn best when they enjoy what they're doing, so feel free to experiment and add personal touches to your form  
+   -> Don't worry too much about making it perfect'you're preparing to dive into more advanced topics, like databases, in the next section  
    -> Forms and database interaction are closely linked, as forms allow users to submit data that can then be stored in a database  
 
 -> Mentorship Makes the Difference!  
-   -> Remember, you donÕt have to learn aloneÑthereÕs support available through the CodingNomads 1-on-1 Mentorship Program  
+   -> Remember, you don't have to learn alone'there's support available through the CodingNomads 1-on-1 Mentorship Program  
    -> By joining the programme, you will have access to:  
       -> A dedicated team of mentors and advisors who are committed to your success  
       -> Weekly 1-on-1 screen share meetings with your personal, professional mentor  
