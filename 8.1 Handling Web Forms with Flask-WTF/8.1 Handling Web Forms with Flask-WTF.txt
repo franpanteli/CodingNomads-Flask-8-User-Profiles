@@ -1,196 +1,196 @@
-Overview of Flask-WTF and Form Handling
-What is Flask-WTF?
+overview of flask-wtf and form handling  
+what is flask-wtf?  
 
-Flask-WTF is an extension for Flask that simplifies the process of working with web forms in Flask. It integrates Flask with WTForms, a library that provides form-handling capabilities such as form validation, CSRF protection, and rendering of forms
+flask-wtf is an extension for flask that simplifies the process of working with web forms in flask. it integrates flask with wtforms, a library that provides form-handling capabilities such as form validation, csrf protection, and rendering of forms
 
-2. Creating the Flask Web Application
-Step 1: Setting Up Your Flask Project
+2. creating the flask web application  
+step 1: setting up your flask project  
 
--> Install Flask and Flask-WTF
-Flask-WTF provides an easier way to handle forms in Flask by integrating WTForms. Before starting, you need to install both Flask and Flask-WTF
+-> install flask and flask-wtf  
+flask-wtf provides an easier way to handle forms in flask by integrating wtforms. before starting, you need to install both flask and flask-wtf  
 
-pip install Flask Flask-WTF
+pip install flask flask-wtf  
 
--> Create Your Project Folder
-Organise your project with the following structure:
+-> create your project folder  
+organise your project with the following structure:  
 
-flask_app/
-├── app.py          # Main Flask application code
-├── templates/      # Folder to hold HTML templates
-│   └── index.html  # HTML form template
-└── static/         # Folder to hold static files like CSS, JavaScript, and images
+flask_app/  
+├── app.py          # main flask application code  
+├── templates/      # folder to hold html templates  
+│   └── index.html  # html form template  
+└── static/         # folder to hold static files like css, javascript, and images  
 
-Step 2: Create the Flask Application (app.py)
+step 2: create the flask application (app.py)  
 
-from flask import Flask, render_template, request, redirect, url_for, flash, session
-from flask_wtf import FlaskForm
-from wtforms import StringField
-from wtforms.validators import DataRequired
-import os
+from flask import flask, render_template, request, redirect, url_for, flash, session  
+from flask_wtf import flaskform  
+from wtforms import stringfield  
+from wtforms.validators import datarequired  
+import os  
 
-# Initialise the Flask application
-app = Flask(__name__)
+# initialise the flask application  
+app = flask(__name__)  
 
-# Set a secret key for session management and CSRF protection
-app.config['SECRET_KEY'] = os.urandom(24)
+# set a secret key for session management and csrf protection  
+app.config['secret_key'] = os.urandom(24)  
 
-# Define the form class using Flask-WTF and WTForms
-class NameForm(FlaskForm):
-    name = StringField('What is your name?', validators=[DataRequired()])
+# define the form class using flask-wtf and wtforms  
+class nameform(flaskform):  
+    name = stringfield('what is your name?', validators=[datarequired()])  
 
-# Define the route for the index page (form submission)
-@app.route('/', methods=['GET', 'POST'])
-def index():
-    form = NameForm()
+# define the route for the index page (form submission)  
+@app.route('/', methods=['get', 'post'])  
+def index():  
+    form = nameform()  
 
-    if form.validate_on_submit():
-        # Save the name to the session
-        session['name'] = form.name.data
-        # Flash a success message
-        flash(f'Welcome, {form.name.data}!', 'success')
-        # Redirect to avoid form resubmission
-        return redirect(url_for('index'))
+    if form.validate_on_submit():  
+        # save the name to the session  
+        session['name'] = form.name.data  
+        # flash a success message  
+        flash(f'welcome, {form.name.data}!', 'success')  
+        # redirect to avoid form resubmission  
+        return redirect(url_for('index'))  
 
-    # Render the template with form and any session data
-    return render_template('index.html', form=form, name=session.get('name'))
+    # render the template with form and any session data  
+    return render_template('index.html', form=form, name=session.get('name'))  
 
-# Run the application
-if __name__ == '__main__':
-    app.run(debug=True)
+# run the application  
+if __name__ == '__main__':  
+    app.run(debug=True)  
 
-Step 3: Breakdown of the app.py File
+step 3: breakdown of the app.py file  
 
--> Initialisation:
-	-> Flask(__name__): Creates a Flask app instance. The __name__ argument tells Flask where to find the templates and static files
-	-> SECRET_KEY: Flask requires a secret key to securely sign the session cookie, which helps protect against CSRF (Cross-Site Request Forgery) attacks
+-> initialisation:  
+    -> flask(__name__): creates a flask app instance. the __name__ argument tells flask where to find the templates and static files  
+    -> secret_key: flask requires a secret key to securely sign the session cookie, which helps protect against csrf (cross-site request forgery) attacks  
 
--> Form Class (NameForm):
-	-> NameForm inherits from FlaskForm and uses StringField to create a text input field for the user's name. The field uses the DataRequired validator to ensure that the user inputs a name
+-> form class (nameform):  
+    -> nameform inherits from flaskform and uses stringfield to create a text input field for the user's name. the field uses the datarequired validator to ensure that the user inputs a name  
 
--> Route (/):
-	-> This is the main route for the web page that displays the form. It listens for both GET and POST requests
-	-> form.validate_on_submit(): This checks whether the form was submitted and if the data is valid (in this case, checking if the name field is filled)
-	-> session['name'] = form.name.data: Saves the submitted name into the user session to make it available in subsequent requests
-	-> flash(): Adds a flash message that will be displayed after the form submission (in this case, a welcome message)
-	-> redirect(url_for('index')): Redirects the user to the same page to avoid re-submission of the form data when they refresh the page
+-> route (/):  
+    -> this is the main route for the web page that displays the form. it listens for both get and post requests  
+    -> form.validate_on_submit(): this checks whether the form was submitted and if the data is valid (in this case, checking if the name field is filled)  
+    -> session['name'] = form.name.data: saves the submitted name into the user session to make it available in subsequent requests  
+    -> flash(): adds a flash message that will be displayed after the form submission (in this case, a welcome message)  
+    -> redirect(url_for('index')): redirects the user to the same page to avoid re-submission of the form data when they refresh the page  
 
-Step 4: Creating the Template (index.html)
+step 4: creating the template (index.html)  
 
-Now, let's create the HTML template that will be used to render the form and show any flash messages. This file should be located inside the templates folder.
+now, let's create the html template that will be used to render the form and show any flash messages. this file should be located inside the templates folder.  
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flask Form with Flash Messages</title>
+<!doctype html>  
+<html lang="en">  
+<head>  
+    <meta charset="utf-8">  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <title>flask form with flash messages</title>  
 
-    <!-- Bootstrap CSS (for styling the form and flash messages) -->
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <!-- bootstrap css (for styling the form and flash messages) -->  
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">  
 
-    <!-- Custom CSS for the black background -->
-    <style>
-        body {
-            background-color: black;
-            color: white;
-            font-family: Arial, sans-serif;
-        }
-        .container {
-            margin-top: 50px;
-        }
-        .alert {
-            color: white;
-        }
-    </style>
-</head>
-<body>
+    <!-- custom css for the black background -->  
+    <style>  
+        body {  
+            background-color: black;  
+            color: white;  
+            font-family: arial, sans-serif;  
+        }  
+        .container {  
+            margin-top: 50px;  
+        }  
+        .alert {  
+            color: white;  
+        }  
+    </style>  
+</head>  
+<body>  
 
-<div class="container">
-    <h1 class="text-center">Enter Your Name</h1>
+<div class="container">  
+    <h1 class="text-center">enter your name</h1>  
 
-    <!-- Flash messages display -->
-    {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-            <div class="alert alert-{{ messages[0][0] }}">
-                {{ messages[0][1] }}
-            </div>
-        {% endif %}
-    {% endwith %}
+    <!-- flash messages display -->  
+    {% with messages = get_flashed_messages(with_categories=true) %}  
+        {% if messages %}  
+            <div class="alert alert-{{ messages[0][0] }}">  
+                {{ messages[0][1] }}  
+            </div>  
+        {% endif %}  
+    {% endwith %}  
 
-    <!-- Form to input the name -->
-    <form method="POST">
-        {{ form.hidden_tag() }}  <!-- CSRF token -->
-        
-        <div class="form-group">
-            {{ form.name.label(class="form-control-label") }}
-            {{ form.name(class="form-control") }}  <!-- Input field -->
-        </div>
-        
-        <button type="submit" class="btn btn-primary btn-block">Submit</button>
-    </form>
+    <!-- form to input the name -->  
+    <form method="post">  
+        {{ form.hidden_tag() }}  <!-- csrf token -->  
 
-    {% if name %}
-        <h2 class="text-center mt-4">Hello, {{ name }}!</h2>
-    {% endif %}
-</div>
+        <div class="form-group">  
+            {{ form.name.label(class="form-control-label") }}  
+            {{ form.name(class="form-control") }}  <!-- input field -->  
+        </div>  
 
-<!-- Bootstrap JS (for any Bootstrap-related functionalities) -->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+        <button type="submit" class="btn btn-primary btn-block">submit</button>  
+    </form>  
 
-</body>
-</html>
+    {% if name %}  
+        <h2 class="text-center mt-4">hello, {{ name }}!</h2>  
+    {% endif %}  
+</div>  
 
-Step 5: Breakdown of the index.html Template
+<!-- bootstrap js (for any bootstrap-related functionalities) -->  
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>  
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>  
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>  
 
--> Basic HTML Structure:
+</body>  
+</html>  
 
-	-> <!DOCTYPE html>: Declares the document type as HTML5
-	-> <head>: Contains metadata such as the character set, viewport settings, and the title of the web page
+step 5: breakdown of the index.html template  
 
--> CSS for Styling:
-	-> The background-color: black makes the page background black, and color: white ensures the text is visible
-	-> The .container class adds some padding and margin to the form
+-> basic html structure:  
 
--> Bootstrap Integration:
-	-> The template uses Bootstrap from a CDN for styling the form and flash messages
-	-> The form-control and btn btn-primary classes apply styling to the input field and submit button respectively
+    -> <!doctype html>: declares the document type as html5  
+    -> <head>: contains metadata such as the character set, viewport settings, and the title of the web page  
 
--> Flash Messages:
-	-> get_flashed_messages(with_categories=true): This is a Flask function that retrieves any messages that were flashed during the previous request. The with_categories=True option allows you to display messages with categories (e.g., 'success', 'error')
-	-> The alert-{{ messages[0][0] }} dynamically adds the correct Bootstrap class for alert styles, depending on the message's category
+-> css for styling:  
+    -> the background-color: black makes the page background black, and color: white ensures the text is visible  
+    -> the .container class adds some padding and margin to the form  
 
--> Displaying the Name:
-	-> If a name has been stored in the session, it is displayed below the form after submission
+-> bootstrap integration:  
+    -> the template uses bootstrap from a cdn for styling the form and flash messages  
+    -> the form-control and btn btn-primary classes apply styling to the input field and submit button respectively  
 
--> Form Rendering:
-	-> {{ form.hidden_tag() }} generates a hidden CSRF token field for the form to protect against CSRF attacks
-	-> {{ form.name.label() }} and {{ form.name() }} generate the form’s label and input field respectively
+-> flash messages:  
+    -> get_flashed_messages(with_categories=true): this is a flask function that retrieves any messages that were flashed during the previous request. the with_categories=true option allows you to display messages with categories (e.g., 'success', 'error')  
+    -> the alert-{{ messages[0][0] }} dynamically adds the correct bootstrap class for alert styles, depending on the message's category  
 
-Step 6: Flash Messages
-In Flask, flash messages are temporary messages that can be shown to the user. When the form is successfully submitted, we use flash() to store a message in the session. These messages are then rendered in the template and displayed to the user
+-> displaying the name:  
+    -> if a name has been stored in the session, it is displayed below the form after submission  
 
-	-> flash(f'Welcome, {form.name.data}!', 'success'): The message is flashed with the category 'success'
-	-> get_flashed_messages(): Retrieves the flashed messages from the session and makes them available to be rendered in the HTML template
+-> form rendering:  
+    -> {{ form.hidden_tag() }} generates a hidden csrf token field for the form to protect against csrf attacks  
+    -> {{ form.name.label() }} and {{ form.name() }} generate the form’s label and input field respectively  
 
-Step 7: Running the Application
--> Run the Flask app:
+step 6: flash messages  
+in flask, flash messages are temporary messages that can be shown to the user. when the form is successfully submitted, we use flash() to store a message in the session. these messages are then rendered in the template and displayed to the user  
 
-python app.py
+    -> flash(f'welcome, {form.name.data}!', 'success'): the message is flashed with the category 'success'  
+    -> get_flashed_messages(): retrieves the flashed messages from the session and makes them available to be rendered in the html template  
 
--> Open the browser:
-Visit http://127.0.0.1:5000/ to see your form in action
+step 7: running the application  
+-> run the flask app:  
 
-3. How It Works
-	-> Form Submission (POST Request):
-		-> When the form is submitted, the POST request is handled by the Flask view function
-		-> The form is validated using Flask-WTF's validate_on_submit() method. If the form is valid (i.e., the user has entered a name), the name field is saved to the session
+python app.py  
 
--> Flash Message and Redirection:
-	-> A flash message is triggered to inform the user of successful form submission
-	-> The redirect(url_for('index')) is used to avoid double submissions when the page is refreshed
+-> open the browser:  
+visit http://127.0.0.1:5000/ to see your form in action  
 
--> Session Management:
-	-> The session allows the Flask app to remember user data (e.g., name) between different requests
-	-> By using session['name'] = form.name.data, we save the name in the session, which can be accessed in subsequent requests
+3. how it works  
+-> form submission (post request):  
+    -> when the form is submitted, the post request is handled by the flask view function  
+    -> the form is validated using flask-wtf's validate_on_submit() method. if the form is valid (i.e., the user has entered a name), the name field is saved to the session  
+
+-> flash message and redirection:  
+    -> a flash message is triggered to inform the user of successful form submission  
+    -> the redirect(url_for('index')) is used to avoid double submissions when the page is refreshed  
+
+-> session management:  
+    -> the session allows the flask app to remember user data (e.g., name) between different requests  
+    -> by using session['name'] = form.name.data, we save the name in the session, which can be accessed in subsequent requests  
